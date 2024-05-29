@@ -1,4 +1,4 @@
-# dtest
+# Discord Birthdays
 
 To install dependencies:
 
@@ -9,7 +9,5 @@ bun install
 To run:
 
 ```bash
-bun run index.ts
+bun run .
 ```
-
-This project was created using `bun init` in bun v1.1.10. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
