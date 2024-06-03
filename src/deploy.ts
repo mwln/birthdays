@@ -1,4 +1,4 @@
-import { REST, Routes, type Command } from "discord.js";
+import { REST, Routes } from "discord.js";
 import { loop } from "./commands";
 
 const rest = new REST().setToken(Bun.env.DISCORD_TOKEN as string);
