@@ -9,8 +9,9 @@ export async function loop(fn: (cmd: Command) => void) {
         const file_path = import.meta.dir.concat("/", file);
         await import(file_path)
             .then((module) => {
-                if ("data" in module.default && "execute" in module.default) {
-                    fn(module.default);
+                const cmd = module.default as Command;
+                if ("data" in cmd && "execute" in cmd) {
+                    fn(cmd);
                 } else {
                     throw Error(
                         `Command for file ${file} not configured properly.`

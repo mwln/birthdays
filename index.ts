@@ -1,8 +1,8 @@
 import { Client, Collection, Events, GatewayIntentBits } from "discord.js";
 import { loop } from "./commands";
 import Cron from "croner";
-import { formatter } from "./dates";
-import { turso } from "./db";
+import { getTodaysBirthdays } from "./db";
+import { format } from "date-fns";
 
 const TOKEN = Bun.env.DISCORD_TOKEN ?? "UNKNOWN";
 
@@ -45,21 +45,21 @@ client.on(Events.InteractionCreate, async (interaction) => {
 });
 
 export async function wishTodaysBirthdays(guild: string, channel: string) {
-    const today = formatter(new Date());
+    const today = format(new Date(), "yyyy-MM-dd");
     console.log("Checking for birthdays on: ", today);
 
-    const results = await turso.execute({ sql: "SELECT * FROM users WHERE day = ?", args: [today] });
-    console.log(`Found ${results.rows.length} users with a birthday today.`);
+    const bdays = await getTodaysBirthdays();
+    console.log(`Found ${bdays.length} users with a birthday today.`);
 
     // TODO: send a birthday message with discordjs using the guild & channel provided
-
-    return results.rows;
 }
 
 client.once(Events.ClientReady, (readyClient) => {
     console.log(`Ready! Logged in as ${readyClient.user.tag}`);
-    const job = Cron("0 7 * * *", wishTodaysBirthdays, { timezone: "Canada/Newfoundland" });
-    console.log(`Cron Job Status: ${job.isRunning()}`)
+    const job = Cron("* * * * *", wishTodaysBirthdays, {
+        timezone: "Canada/Newfoundland",
+    });
+    console.log(`cron job is running: ${job.isRunning()}`);
 });
 
 client.login(TOKEN);
