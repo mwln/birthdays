@@ -1,18 +1,21 @@
 {
-  "name": "birthdays",
-  "module": "index.ts",
-  "type": "module",
-  "devDependencies": {
-    "@flydotio/dockerfile": "^0.5.7",
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
-  "dependencies": {
-    "@libsql/client": "^0.6.2",
-    "croner": "^8.0.2",
-    "date-fns": "^3.6.0",
-    "discord.js": "^14.15.2"
-  }
+    "name": "birthdays",
+    "module": "index.ts",
+    "type": "module",
+    "scripts": {
+        "migrate": "bun run ./db/migrate.ts"
+    },
+    "devDependencies": {
+        "@flydotio/dockerfile": "^0.5.7",
+        "@types/bun": "latest"
+    },
+    "peerDependencies": {
+        "typescript": "^5.0.0"
+    },
+    "dependencies": {
+        "@libsql/client": "^0.6.2",
+        "croner": "^8.0.2",
+        "date-fns": "^3.6.0",
+        "discord.js": "^14.15.2"
+    }
 }

@@ -1,14 +1,7 @@
-# fly.toml app configuration file generated for discord-birthdays on 2024-06-05T09:51:27-02:30
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
-
 app = 'discord-birthdays'
 primary_region = 'ewr'
 
-[build]
-
 [[vm]]
-  memory = '1gb'
-  cpu_kind = 'shared'
-  cpus = 1
+memory = '1gb'
+cpu_kind = 'shared'
+cpus = 1

@@ -1,20 +1,17 @@
 import { createClient, type Client } from "@libsql/client";
 import { format } from "date-fns";
 
+const isProd = Bun.env.NODE_ENV === "production";
+
+console.log("Running in production: ", isProd);
+console.log("url: ", Bun.env.TURSO_URL);
+
 export const db = createClient({
-    url: Bun.env.NODE_ENV === "production" ? "file:local.db" : ":memory:",
+    url: isProd ? Bun.env.TURSO_URL as string : ":memory:",
+    authToken: isProd ? Bun.env.TURSO_TOKEN as string : "mytoken"
 });
 
-export async function migrate() {
-    console.log("NODE_ENV: ", Bun.env.NODE_ENV);
-    return await db.batch(
-        ["CREATE TABLE IF NOT EXISTS users (id TEXT UNIQUE, day TEXT)"],
-        "write"
-    );
-}
-
 export async function setBirthday(user: string, day: string): Promise<boolean> {
-    console.log(Bun.env.NODE_ENV);
     const result = await db.execute({
         sql: "INSERT OR REPLACE INTO users (id, day) VALUES (?, ?)",
         args: [user, day],
